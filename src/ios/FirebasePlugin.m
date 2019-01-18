@@ -388,6 +388,16 @@ static FirebasePlugin *firebasePlugin;
     }];
 }
 
+- (void)setDefaults:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSDictionary *defaults = [command.arguments objectAtIndex:0];
+        FIRRemoteConfig* remoteConfig = [FIRRemoteConfig remoteConfig];
+        [remoteConfig setDefaults:defaults];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
 //
 // Performace
 //
